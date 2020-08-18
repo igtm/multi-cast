@@ -68,9 +68,38 @@ var client, localStream, camera, microphone;
 var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
 
-audioSelect.onchange = getDevices;
-videoSelect.onchange = getDevices;
-getDevices();
+
+// https://docs.agora.io/en/faq/empty_deviceId
+const tempAudioStream = AgoraRTC.createStream({ audio: true, video: false});
+const tempVideoStream = AgoraRTC.createStream({ audio: false, video: true});
+
+const audioPermissionOK = new Promise(resolve => {
+  tempAudioStream.init(() => resolve(null), (e) => resolve(e));
+});
+const videoPermissionOK = new Promise(resolve => {
+  tempVideoStream.init(() => resolve(null), (e) => resolve(e));
+});
+
+Promise.all([audioPermissionOK, videoPermissionOK]).then(res => {
+  if (res[0] !== null) {
+    console.warn("create audio temp stream failed!", res[0]);
+  }
+  if (res[1] !== null) {
+    console.warn("create video temp stream failed!", res[0]);
+  }
+
+// After the capture, call getDevices to get device information
+  const devices = AgoraRTC.getDevices(info => {
+    tempAudioStream.close();
+    tempVideoStream.close();
+    console.log("get device info!", info);
+  });
+
+  audioSelect.onchange = getDevices;
+  videoSelect.onchange = getDevices;
+  getDevices();
+});
+
 
 function join() {
     document.getElementById("join").disabled = true;
