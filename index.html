@@ -175,9 +175,10 @@ function join() {
   }
 
 function leave() {
-  document.getElementById("leave").disabled = true;
   client.leave(function () {
     console.log("Leavel channel successfully");
+    document.getElementById("join").disabled = false;
+    document.getElementById("video").disabled = false;
   }, function (err) {
     console.log("Leave channel failed");
   });
@@ -193,7 +194,6 @@ function publish() {
 
 function unpublish() {
   document.getElementById("publish").disabled = false;
-  document.getElementById("unpublish").disabled = true;
   client.unpublish(localStream, function (err) {
     console.log("Unpublish local stream failed" + err);
   });
