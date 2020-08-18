@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Agora Web Sample</title>
+<title>Multi Cast</title>
 <link rel="stylesheet" href="vendor/bootstrap.min.css">
 <script src="AgoraRTCSDK-2.5.2.js"></script>
 <script src="vendor/jquery.js"></script>
@@ -203,8 +203,8 @@ function unpublish() {
 
 function getDevices() {
   AgoraRTC.getDevices(function (devices) {
-    for (var i = 0; i !== devices.length; ++i) {
-      var device = devices[i];
+    console.log(devices)
+    for (const device of devices) {
       var option = document.createElement('option');
       option.value = device.deviceId;
       if (device.kind === 'audioinput') {
