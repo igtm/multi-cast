@@ -21,6 +21,8 @@
   </div>
   <button class="btn btn-raised btn-primary waves-effect waves-light" id="hide"
     onclick="javascript:void(0);">HIDE</button>
+  <button class="btn btn-raised btn-primary waves-effect waves-light" id="col2"
+    onclick="javascript:void(0);">2カラム</button>
   <form id="form" class="row col l12 s12">
     <div id="form-card" class="row container col l12 s12" style="min-width: 1435px; display: flex">
       <div class="card" style="margin-top: 0px; margin-bottom: 0px;">
@@ -126,16 +128,16 @@
         </div>
       </div>
     </div>
-    <div class="row container col l12 s12" style="min-width: 1435px; display: flex">
-      <div id="video">
-        <div class="video-view">
-          <div id="local_stream" class="video-placeholder"></div>
-          <div id="local_video_info" class="video-profile hide"></div>
-          <div id="video_autoplay_local" class="autoplay-fallback hide"></div>
-        </div>
+  </form>
+  <div style="width: 100%; text-align: center;">
+    <div id="video" style="display: flex;flex-wrap: wrap;">
+      <div class="video-view">
+        <div id="local_stream" class="video-placeholder"></div>
+        <div id="local_video_info" class="video-profile hide"></div>
+        <div id="video_autoplay_local" class="autoplay-fallback hide"></div>
       </div>
     </div>
-  </form>
+  </div>
 
   <!-- notice for developer -->
   <div id="warn" class="modal" tabindex="0">
@@ -158,6 +160,9 @@
   <script type="text/javascript">
     document.getElementById('hide').addEventListener('click', function (e) {
       document.getElementById('form-card').classList.toggle("hide")
+    }, false)
+    document.getElementById('col2').addEventListener('click', function (e) {
+      document.getElementById('video').classList.toggle("col2")
     }, false)
   </script>
 </body>
