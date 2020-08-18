@@ -52,7 +52,7 @@ Host: <input id="video" type="checkbox" checked></input>
 
 <script language="javascript">
 window.onload = function(){
-  
+
   if(!AgoraRTC.checkSystemRequirements()) {
     alert("Your browser does not support WebRTC!");
   }
@@ -75,7 +75,14 @@ window.onload = function(){
   var audioSelect = document.querySelector('select#audioSource');
   var videoSelect = document.querySelector('select#videoSource');
 
-  function join() {
+  //audioSelect.onchange = getDevices;
+  //videoSelect.onchange = getDevices;
+  getDevices();
+    
+}
+
+
+function join() {
     document.getElementById("join").disabled = true;
     document.getElementById("video").disabled = true;
     var channel_key = null;
@@ -221,11 +228,6 @@ window.onload = function(){
     });
   }
 
-  //audioSelect.onchange = getDevices;
-  //videoSelect.onchange = getDevices;
-  getDevices();
-    
-}
 </script>
 </body>
 </html>
