@@ -51,36 +51,32 @@ Host: <input id="video" type="checkbox" checked></input>
 <input id="screenType" name="screenType" type="hidden" value="screen">
 
 <script language="javascript">
-window.onload = function(){
 
-  if(!AgoraRTC.checkSystemRequirements()) {
-    alert("Your browser does not support WebRTC!");
-  }
-
-  /* select Log type */
-  // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.NONE);
-  // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.ERROR);
-  // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.WARNING);
-  // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.INFO);  
-  // AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.DEBUG);
-
-  /* simulated data to proof setLogLevel() */
-  AgoraRTC.Logger.error('this is error');
-  AgoraRTC.Logger.warning('this is warning');
-  AgoraRTC.Logger.info('this is info');
-  AgoraRTC.Logger.debug('this is debug');
-
-  var client, localStream, camera, microphone;
-
-  var audioSelect = document.querySelector('select#audioSource');
-  var videoSelect = document.querySelector('select#videoSource');
-
-  //audioSelect.onchange = getDevices;
-  //videoSelect.onchange = getDevices;
-  getDevices();
-    
+if(!AgoraRTC.checkSystemRequirements()) {
+  alert("Your browser does not support WebRTC!");
 }
 
+/* select Log type */
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.NONE);
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.ERROR);
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.WARNING);
+// AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.INFO);  
+AgoraRTC.Logger.setLogLevel(AgoraRTC.Logger.DEBUG);
+
+/* simulated data to proof setLogLevel() */
+AgoraRTC.Logger.error('this is error');
+AgoraRTC.Logger.warning('this is warning');
+AgoraRTC.Logger.info('this is info');
+AgoraRTC.Logger.debug('this is debug');
+
+var client, localStream, camera, microphone;
+
+var audioSelect = document.querySelector('select#audioSource');
+var videoSelect = document.querySelector('select#videoSource');
+
+audioSelect.onchange = getDevices;
+videoSelect.onchange = getDevices;
+getDevices();
 
 function join() {
     document.getElementById("join").disabled = true;
@@ -184,49 +180,49 @@ function join() {
     });
   }
 
-  function leave() {
-    document.getElementById("leave").disabled = true;
-    client.leave(function () {
-      console.log("Leavel channel successfully");
-    }, function (err) {
-      console.log("Leave channel failed");
-    });
-  }
+function leave() {
+  document.getElementById("leave").disabled = true;
+  client.leave(function () {
+    console.log("Leavel channel successfully");
+  }, function (err) {
+    console.log("Leave channel failed");
+  });
+}
 
-  function publish() {
-    document.getElementById("publish").disabled = true;
-    document.getElementById("unpublish").disabled = false;
-    client.publish(localStream, function (err) {
-      console.log("Publish local stream error: " + err);
-    });
-  }
+function publish() {
+  document.getElementById("publish").disabled = true;
+  document.getElementById("unpublish").disabled = false;
+  client.publish(localStream, function (err) {
+    console.log("Publish local stream error: " + err);
+  });
+}
 
-  function unpublish() {
-    document.getElementById("publish").disabled = false;
-    document.getElementById("unpublish").disabled = true;
-    client.unpublish(localStream, function (err) {
-      console.log("Unpublish local stream failed" + err);
-    });
-  }
+function unpublish() {
+  document.getElementById("publish").disabled = false;
+  document.getElementById("unpublish").disabled = true;
+  client.unpublish(localStream, function (err) {
+    console.log("Unpublish local stream failed" + err);
+  });
+}
 
-  function getDevices() {
-    AgoraRTC.getDevices(function (devices) {
-      console.log(devices)
-      for (const device of devices) {
-        var option = document.createElement('option');
-        option.value = device.deviceId;
-        if (device.kind === 'audioinput') {
-          option.text = device.label || 'microphone ' + (audioSelect.length + 1);
-          audioSelect.appendChild(option);
-        } else if (device.kind === 'videoinput') {
-          option.text = device.label || 'camera ' + (videoSelect.length + 1);
-          videoSelect.appendChild(option);
-        } else {
-          console.log('Some other kind of source/device: ', device);
-        }
+function getDevices() {
+  AgoraRTC.getDevices(function (devices) {
+    console.log(devices)
+    for (const device of devices) {
+      var option = document.createElement('option');
+      option.value = device.deviceId;
+      if (device.kind === 'audioinput') {
+        option.text = device.label || 'microphone ' + (audioSelect.length + 1);
+        audioSelect.appendChild(option);
+      } else if (device.kind === 'videoinput') {
+        option.text = device.label || 'camera ' + (videoSelect.length + 1);
+        videoSelect.appendChild(option);
+      } else {
+        console.log('Some other kind of source/device: ', device);
       }
-    });
-  }
+    }
+  });
+}
 
 </script>
 </body>
